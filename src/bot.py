@@ -15,6 +15,7 @@ from handlers import (
     tasks_command,
     todo_command,
 )
+from scheduler import schedule_reminders
 
 logging.basicConfig(
     format="%(asctime)s %(levelname)s %(name)s: %(message)s",
@@ -52,6 +53,7 @@ def build_application(token: str, connection) -> Application:
     application.add_handler(CommandHandler("mytasks", mytasks_command))
     application.add_handler(CommandHandler("done", done_command))
     application.add_error_handler(error_handler)
+    schedule_reminders(application)
     return application
 
 
