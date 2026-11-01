@@ -108,7 +108,7 @@ Currently under development.
 
 ## Contributors
 
-Add your group members' names here.
+@sarauh-codes
 
 ## License
 
