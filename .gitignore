@@ -1,0 +1,21 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+
+# Virtual environment
+venv/
+.venv/
+
+# Secrets (never commit your real bot token)
+.env
+
+# Local SQLite database
+*.db
+
+# Editor / OS files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
