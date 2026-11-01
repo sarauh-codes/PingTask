@@ -2,7 +2,8 @@
 
 import logging
 
-from telegram.ext import Application, CommandHandler
+from telegram.error import NetworkError, TelegramError
+from telegram.ext import Application, CommandHandler, ContextTypes
 
 import database
 from config import ConfigError, get_bot_token, get_database_path
@@ -21,6 +22,24 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
+# httpx logs every request URL at INFO level, and the URL contains the bot token.
+logging.getLogger("httpx").setLevel(logging.WARNING)
+
+
+async def error_handler(update: object, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """Log errors from command handlers without crashing the bot.
+
+    Network errors are usually temporary, so they are logged as warnings
+    without a full traceback. Other errors keep their traceback.
+    """
+    error = context.error
+    if isinstance(error, NetworkError):
+        logger.warning("Network error while handling an update: %s", error)
+    elif isinstance(error, TelegramError):
+        logger.warning("Telegram error while handling an update: %s", error)
+    else:
+        logger.error("Unexpected error while handling an update", exc_info=error)
+
 
 def build_application(token: str, connection) -> Application:
     """Create the Telegram application, share the database, and register commands."""
@@ -32,6 +51,7 @@ def build_application(token: str, connection) -> Application:
     application.add_handler(CommandHandler("tasks", tasks_command))
     application.add_handler(CommandHandler("mytasks", mytasks_command))
     application.add_handler(CommandHandler("done", done_command))
+    application.add_error_handler(error_handler)
     return application
 
 
