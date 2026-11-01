@@ -123,18 +123,26 @@ def get_personal_tasks(
     connection: sqlite3.Connection,
     chat_id: int,
     assignee_id: int,
+    assignee_username: str | None,
 ) -> list[sqlite3.Row]:
-    """Return pending tasks assigned to one user in one group, earliest deadline first."""
+    """Return pending tasks assigned to one user in one group, earliest deadline first.
+
+    Tasks created with only an @username (no Telegram user ID) are matched by
+    username when the task has no assignee_id.
+    """
     return connection.execute(
         """
         SELECT *
         FROM tasks
         WHERE chat_id = ?
-        AND assignee_id = ?
         AND status = 'pending'
+        AND (
+            assignee_id = ?
+            OR (assignee_id IS NULL AND assignee = ? COLLATE NOCASE)
+        )
         ORDER BY due_date ASC
         """,
-        (chat_id, assignee_id),
+        (chat_id, assignee_id, assignee_username),
     ).fetchall()
 
 

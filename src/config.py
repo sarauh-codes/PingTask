@@ -30,3 +30,8 @@ def get_bot_token() -> str:
 def get_timezone() -> str:
     """Return the configured timezone name, falling back to the default."""
     return os.getenv("TIMEZONE", DEFAULT_TIMEZONE).strip() or DEFAULT_TIMEZONE
+
+
+def get_database_path() -> str:
+    """Return the SQLite database file path, defaulting to pingtask.db."""
+    return os.getenv("DATABASE_PATH", "pingtask.db").strip() or "pingtask.db"

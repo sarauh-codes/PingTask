@@ -99,8 +99,15 @@ class PersonalTasksTests(DatabaseTestCase):
         self.add_task(assignee_id=20)
         self.add_task(chat_id=CHAT_B, assignee_id=10)
 
-        ids = [row["id"] for row in database.get_personal_tasks(self.conn, CHAT_A, 10)]
+        ids = [row["id"] for row in database.get_personal_tasks(self.conn, CHAT_A, 10, "@adam")]
         self.assertEqual(ids, [mine])
+
+    def test_matches_username_when_task_has_no_user_id(self):
+        task_id = database.insert_task(
+            self.conn, CHAT_A, 99, "@Adam", None, "No id yet", NOW + timedelta(hours=5), NOW
+        )
+        ids = [row["id"] for row in database.get_personal_tasks(self.conn, CHAT_A, 10, "@adam")]
+        self.assertEqual(ids, [task_id])
 
 
 class CompleteTaskTests(DatabaseTestCase):
