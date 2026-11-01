@@ -1,4 +1,3 @@
-[README.md](https://github.com/user-attachments/files/34233285/README.md)
 # PingTask
 
 **A Telegram-Based Group Task Management and Automated Reminder System**
