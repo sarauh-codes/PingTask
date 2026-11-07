@@ -178,6 +178,13 @@ flowchart TD
 - Verify task ownership before modifying records.
 - Handle Telegram API errors appropriately.
 
+## 6.1 Implementation Notes
+
+- The reminder check is registered on python-telegram-bot's job queue, which runs on APScheduler. It runs every 10 minutes, starting 30 seconds after the bot starts.
+- Telegram errors are logged by a single error handler in `bot.py`. Network errors are logged as warnings without a traceback.
+- The bot token is never logged. Request logging for `httpx` is set to `WARNING`, because request URLs contain the token.
+- Commands are plain-text replies, so usernames and task text are not parsed as Markdown.
+
 ## 7. Future Improvements
 
 Possible future enhancements include:

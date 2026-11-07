@@ -12,6 +12,7 @@ The bot provides a simple way to coordinate group work directly within Telegram 
 
 - Create and assign tasks.
 - View all pending group tasks.
+- View your own pending tasks.
 - Mark tasks as completed.
 - Automatically remind members about upcoming deadlines.
 - Store task information using SQLite.
@@ -68,7 +69,11 @@ Create a `.env` file:
 ```env
 BOT_TOKEN=your_telegram_bot_token
 TIMEZONE=Asia/Kuala_Lumpur
+# Optional: where the SQLite database is stored (default: pingtask.db)
+# DATABASE_PATH=pingtask.db
 ```
+
+`BOT_TOKEN` is required. `TIMEZONE` defaults to `Asia/Kuala_Lumpur`.
 
 Never upload your actual `.env` file or Telegram bot token to GitHub.
 
@@ -78,15 +83,32 @@ Never upload your actual `.env` file or Telegram bot token to GitHub.
 python src/bot.py
 ```
 
+The bot must keep running for reminders to be sent. Stop it with `Ctrl+C`.
+
 ## Available Commands
 
 | Command | Description |
 |---|---|
 | `/start` | Start the bot |
 | `/help` | Show available commands |
-| `/todo` | Create a task |
-| `/tasks` | View pending tasks |
-| `/done` | Mark a task as completed |
+| `/todo @username Task description by Date/Time` | Create a task, for example `/todo @adam Finish schema by tomorrow 5pm` |
+| `/tasks` | View all pending tasks in this group |
+| `/mytasks` | View your pending tasks in this group |
+| `/done <task ID>` | Mark a task as completed, for example `/done 3` |
+
+Only the task's assignee or creator can mark it as completed.
+
+## Reminders
+
+Every 10 minutes, the bot checks for pending tasks due within the next 24 hours. It sends one reminder per task to the group and does not repeat it. Completed and overdue tasks are skipped.
+
+## Running Tests
+
+```bash
+python -m unittest discover -s tests
+```
+
+The tests use mocks and in-memory databases, so they do not contact Telegram.
 
 ## Project Structure
 
@@ -103,7 +125,7 @@ PingTask/
 
 ## Project Status
 
-Currently under development.
+All planned features are implemented and tested. See `docs/06_TESTING_PLAN.md` for the test results.
 
 ## Contributors
 

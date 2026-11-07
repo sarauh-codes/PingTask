@@ -109,6 +109,17 @@ AND status = 'pending'
 ORDER BY due_date ASC;
 ```
 
+The implementation also matches tasks by username when `assignee_id` is empty:
+
+```sql
+AND (
+    assignee_id = ?
+    OR (assignee_id IS NULL AND assignee = ? COLLATE NOCASE)
+)
+```
+
+This is needed because Telegram does not give a bot the user ID for a plain `@username`. The ID is stored only when the assignee is picked from Telegram's mention list or is the person creating the task.
+
 ### 6.4 Mark a Task as Completed
 
 ```sql
