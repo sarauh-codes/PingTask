@@ -209,12 +209,12 @@ The suite has 64 tests and all pass. Some results were also checked by hand in T
 | TC-11 | Error: task does not exist in this group | Passed (automated) | `test_task_manager.py` |
 | TC-12 | Error: task belongs to another group | Passed (automated) | `test_task_manager.py`, `test_database.py` |
 | TC-13 | Error: only assignee or creator can complete | Passed (automated) | `test_task_manager.py`, `test_task_handlers.py` |
-| TC-14 | Reminder is sent for a task due within 24 hours | Pending live test | `test_scheduler.py` |
+| TC-14 | Reminder is sent for a task due within 24 hours | Passed (live) | `test_scheduler.py` |
 | TC-15 | Already-reminded task is not sent again | Passed (automated) | `test_scheduler.py` |
 | TC-16 | Completed task gets no reminder | Passed (automated) | `test_scheduler.py` |
 | TC-17 | Overdue task gets no reminder | Passed (automated) | `test_scheduler.py` |
-| TC-18 | Tasks are still listed after restart | Pending live test | Automated: `test_database.py` (persistence test) |
-| TC-19 | Only this group's tasks are listed | Passed (automated) | `test_database.py`; live check pending |
+| TC-18 | Tasks are still listed after restart | Passed (live) | Automated: `test_database.py` (persistence test) |
+| TC-19 | Only this group's tasks are listed | Passed (live) | `test_database.py` |
 | TC-20 | Failed delivery leaves reminder eligible for retry | Passed (automated) | `test_scheduler.py` |
 
 The testing records shall be updated after each test has been performed.
