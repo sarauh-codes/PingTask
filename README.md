@@ -91,7 +91,7 @@ The bot must keep running for reminders to be sent. Stop it with `Ctrl+C`.
 |---|---|
 | `/start` | Start the bot |
 | `/help` | Show available commands |
-| `/todo @username Task description by Date/Time` | Create a task, for example `/todo @adam Finish schema by tomorrow 5pm` |
+| `/todo @username Task description by Date/Time` | Create a task, for example `/todo @sarah Finish schema db by tomorrow 5pm` |
 | `/tasks` | View all pending tasks in this group |
 | `/mytasks` | View your pending tasks in this group |
 | `/done <task ID>` | Mark a task as completed, for example `/done 3` |
