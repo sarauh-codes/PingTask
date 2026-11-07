@@ -182,17 +182,39 @@ PingTask will be considered ready for demonstration when:
 
 ## 7. Testing Results
 
-Testing results will be recorded during implementation.
+Automated tests are run with:
+
+```bash
+python -m unittest discover -s tests
+```
+
+The suite has 64 tests and all pass. Some results were also checked by hand in Telegram. Status meanings:
+
+- **Passed (automated):** covered by a unit test in `tests/`.
+- **Passed (live):** checked by sending a command to the bot in Telegram.
+- **Pending live test:** covered by an automated test, but not yet checked in Telegram.
 
 | Test ID | Actual Result | Status | Remarks |
 |---|---|---|---|
-| TC-01 | To be tested | Not Tested | |
-| TC-02 | To be tested | Not Tested | |
-| TC-03 | To be tested | Not Tested | |
-| TC-04 | To be tested | Not Tested | |
-| TC-05 | To be tested | Not Tested | |
-| TC-06 | To be tested | Not Tested | |
-| TC-07 | To be tested | Not Tested | |
-| TC-08 | To be tested | Not Tested | |
+| TC-01 | Bot replies with the welcome message | Passed (live) | |
+| TC-02 | Bot lists the available commands | Passed (live) | |
+| TC-03 | Task is saved and confirmed | Passed (live) | `test_task_handlers.py` |
+| TC-04 | Error: assignee is missing | Passed (automated) | `test_task_manager.py` |
+| TC-05 | Error: task description is empty | Passed (automated) | `test_task_manager.py` |
+| TC-06 | Error: deadline could not be understood | Passed (automated) | `test_task_manager.py` |
+| TC-07 | Error: deadline must be in the future | Passed (automated) | `test_task_manager.py` |
+| TC-08 | Pending tasks are listed | Passed (live) | `test_task_handlers.py` |
+| TC-09 | Only the sender's tasks are listed | Passed (live) | `test_task_handlers.py` |
+| TC-10 | Task status changes to completed | Passed (live) | Checked in `pingtask.db` |
+| TC-11 | Error: task does not exist in this group | Passed (automated) | `test_task_manager.py` |
+| TC-12 | Error: task belongs to another group | Passed (automated) | `test_task_manager.py`, `test_database.py` |
+| TC-13 | Error: only assignee or creator can complete | Passed (automated) | `test_task_manager.py`, `test_task_handlers.py` |
+| TC-14 | Reminder is sent for a task due within 24 hours | Pending live test | `test_scheduler.py` |
+| TC-15 | Already-reminded task is not sent again | Passed (automated) | `test_scheduler.py` |
+| TC-16 | Completed task gets no reminder | Passed (automated) | `test_scheduler.py` |
+| TC-17 | Overdue task gets no reminder | Passed (automated) | `test_scheduler.py` |
+| TC-18 | Tasks are still listed after restart | Pending live test | Automated: `test_database.py` (persistence test) |
+| TC-19 | Only this group's tasks are listed | Passed (automated) | `test_database.py`; live check pending |
+| TC-20 | Failed delivery leaves reminder eligible for retry | Passed (automated) | `test_scheduler.py` |
 
 The testing records shall be updated after each test has been performed.
